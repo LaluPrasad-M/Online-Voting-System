@@ -1,5 +1,5 @@
 {
-  "name": "Online-Voting-System",
+  "name": "online-voting-system",
   "version": "1.0.0",
   "description": "An Online Voting System website built using node js and html",
   "main": "index.js",

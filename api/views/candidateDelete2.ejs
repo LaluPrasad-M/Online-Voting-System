@@ -19,10 +19,10 @@
                 
             <div class="wrapper animated bounceInLeft">
                 <p>
-                    <label>Candidate Name*:</label>
+                    <label>Candidate Party*:</label>
                 </p>
                 <div class="wrapperHalf">
-                    <select name="name" >
+                    <select name="party" >
                         <tr>
                             <th><option value="<%= entry[0] %>" ><%= entry[0] %></option></th>
                         </tr>
@@ -69,23 +69,25 @@
        
  
        <font color="brown">
-       <h4>Available Positions</h4>
+       <h4>Filled Positions</h4>
        </font>
     
        <table class="animated bounceInUp">
-          <tr>
-             <th>Candidate ID</th>
-             <th>Candidate Name</th>
-             <th>Candidate Position</th>
-          </tr>
-          
-          <% data.candidates.forEach(function(dataitem){ %>
-             <tr>
-                <th><%= dataitem[0] %></th>
-                <th><%= dataitem[1] %></th>
-                <th><%= dataitem[2] %></th>
-             </tr>
-          <% }); %>
+        <tr>
+            <th>Candidate ID</th>
+            <th>Candidate Name</th>
+            <th>Candidate Position</th>
+            <th>Candidate Party</th>
+         </tr>
+         
+         <% data.candidates.forEach(function(dataitem){ %>
+            <tr>
+               <th><%= dataitem[0] %></th>
+               <th><%= dataitem[1] %></th>
+               <th><%= dataitem[2] %></th>
+               <th><%= dataitem[3] %></th>
+            </tr>
+         <% }); %>
                 
        </table>
     </center>

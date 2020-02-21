@@ -18,22 +18,26 @@
                 
             <div class="wrapper animated bounceInLeft">
                 <p>
-                    <label>Candidate Name*:</label>
+                    <label>Candidate Party*:</label>
                 </p>
                 <div class="wrapperHalf">
-                    <select name="name"required >
-                    <% data.candidates.forEach(function(dataitem){ %>
-                        <tr>
-                            <th><option id="<%= dataitem[1] %>"value="<%= dataitem[1] %>"><%= dataitem[1] %></option></th>
-                        </tr>
+                    <select name="party"required >
+                    <%  parties = new Set();
+                        data.candidates.forEach(function(dataitem){ 
+                        if(parties.has(dataitem[3])==0){ %>
+                            <% parties.add(dataitem[3]) %>
+                            <tr>
+                                <th><option id="<%= dataitem[3] %>"value="<%= dataitem[3] %>"><%= dataitem[3] %></option></th>
+                            </tr>
+                            <% } %>
                     <% }); %>
                     </select></p>
                 </div>
             </div>
-            <% if(message.name) {%>
-                <p class='full' ><label style='color:red; text-align: center;'>DELETED <span style="color:brown"><%= message.name %> : <%= message.position %></span></label></p>
+            <% if(message.party) {%>
+                <p class='full' ><label style='color:darkred; text-align: center;'>DELETED <span style="color:brown"><%= message.party %> : <%= message.position %></span></label></p>
             <%} else {%>
-                <p class='full' ><label style='color:red; text-align: center;'><%= message %></label></p>
+                <p class='full' ><label style='color:darkred; text-align: center;'><%= message %></label></p>
             <% } %>
             <p>
                 <div>
@@ -55,7 +59,7 @@
        
  
        <font color="brown">
-       <h4>Available Positions</h4>
+       <h4>Filled Positions</h4>
        </font>
     
        <table class="animated bounceInUp">
@@ -63,6 +67,7 @@
              <th>Candidate ID</th>
              <th>Candidate Name</th>
              <th>Candidate Position</th>
+             <th>Candidate Party</th>
           </tr>
           
           <% data.candidates.forEach(function(dataitem){ %>
@@ -70,6 +75,7 @@
                 <th><%= dataitem[0] %></th>
                 <th><%= dataitem[1] %></th>
                 <th><%= dataitem[2] %></th>
+                <th><%= dataitem[3] %></th>
              </tr>
           <% }); %>
                 

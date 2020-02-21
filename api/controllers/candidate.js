@@ -4,31 +4,32 @@ const Candidate = require('../models/candidate');
 
 exports.candidate_add = (req,res) => {
     Candidate.find()
-    .select("cid name position")
+    .select("cid name position party")
     .exec()
     .then(docs => {
         const response = {
             candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position]
+                return [doc.cid,doc.name,doc.position,doc.party]
             })
         };
-                Candidate.find({name:req.body.name,position:req.body.position})
+                Candidate.find({position:req.body.position,party:req.body.party})
                 .exec()
                 .then(candidate => {
                     if(candidate.length >= 1){
-                    res.render('candidateAdd',{Token:"?Token="+req.query.Token,message: "Candidate Entry exists",data:response});
+                    res.render('candidateAdd',{Token:"?Token="+req.query.Token,message: "Position already filled",data:response});
                     return res.status(409);
                     } else {
                         const candidate = new Candidate({
                             _id: new mongoose.Types.ObjectId(),
                             name: req.body.name,
                             position: req.body.position,
-                            cid: new Date().getTime(),
+                            cid: new Date().getTime()%10000000000,
+                            party: req.body.party,
                         });
                         
                         candidate.save()
                         .then(result => {
-                            response.candidates.push([candidate.cid, candidate.name,candidate.position]);
+                            response.candidates.push([candidate.cid, candidate.name,candidate.position,candidate.party]);
                             res.render('candidateAdd',{Token:"?Token="+req.query.Token,message: "Candidate Updated",data:response});
                             res.status(201);
                         })
@@ -50,22 +51,22 @@ exports.candidate_add = (req,res) => {
 
 exports.candidate_delete1 = (req, res) => {
     Candidate.find()
-    .select("cid name position")
+    .select("cid name position party")
     .exec()
     .then(docs => {
         const response = {
             candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position]
+                return [doc.cid,doc.name,doc.position,doc.party]
             })
         };
         const response1 = [];
         response.candidates.forEach(function(doc){
-            if(req.body.name === doc[1]){
+            if(req.body.party === doc[3]){
                 response1.push(doc[2]);
             }
         });
            
-        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.name,response1]});
+        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response1]});
         res.status(200);
     }) 
     .catch(err =>{
@@ -78,19 +79,19 @@ exports.candidate_delete1 = (req, res) => {
 
 
 exports.candidate_delete2 = (req, res) => {
-    Candidate.remove({name:req.body.name,position:req.body.position})
+    Candidate.remove({position:req.body.position,party:req.body.party})
     .exec()
     .then(result => {
         Candidate.find()
-        .select("cid name position")
+        .select("cid name position party")
         .exec()
         .then(docs => {
             const response = {
                 candidates: docs.map(doc => {
-                    return [doc.cid,doc.name,doc.position]
+                    return [doc.cid,doc.name,doc.position,doc.party]
                 })
             };
-            res.render('candidateDelete1',{Token:"?Token="+req.query.Token,message:{name: req.body.name,position:req.body.position},data:response});
+            res.render('candidateDelete1',{Token:"?Token="+req.query.Token,message:{position:req.body.position, party:req.body.party}, data:response});
             res.status(200);
         })
     })

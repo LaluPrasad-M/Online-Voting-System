@@ -52,12 +52,12 @@ router.delete('/:userId', checkAuth, AdminController.admin_delete);
 router.get('/addCandidate',checkAuth, (req,res) => {
 
     Candidate.find()
-    .select("cid name position")
+    .select("cid name position party")
     .exec()
     .then(docs => {
         const response = {
             candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position]
+                return [doc.cid,doc.name,doc.position,doc.party]
             })
         };
         res.render("candidateAdd",{Token:"?Token="+req.query.Token,message:"",data:response});
@@ -76,12 +76,12 @@ router.post('/addCandidate', checkAuth, CandidateController.candidate_add);
 router.get('/deleteCandidate',checkAuth, (req,res) => {
 
     Candidate.find()
-    .select("cid name position")
+    .select("cid name position party")
     .exec()
     .then(docs => {
         const response = {
             candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position]
+                return [doc.cid,doc.name,doc.position,doc.party]
             })
         };
         res.render("candidateDelete1",{Token:"?Token="+req.query.Token,message:"",data:response});
@@ -98,19 +98,19 @@ router.post('/deleteCandidate', checkAuth, CandidateController.candidate_delete1
 
 router.get('/deleteCandidate1',checkAuth, (req,res) => {
     Candidate.find({name:req.body.name})
-    .select("cid name position")
+    .select("cid name position party")
     .exec()
     .then(docs => {
         const response = {
             candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position]
+                return [doc.cid,doc.name,doc.position,doc.party]
             })
         };
         console.log("\n\n\n"+response);
-        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.name,response.candidates]});
+        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
     }) 
     .catch(err =>{
-        res.render('candidateDelete2',{Token:"?Token="+req.query.Token,data:response,entry:[req.body.name,response.candidates]});
+        res.render('candidateDelete2',{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
         res.status(500);
     });
 });

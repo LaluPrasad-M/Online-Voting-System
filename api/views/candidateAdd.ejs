@@ -34,7 +34,16 @@
             </div>
          </div>
          
-              <p class='full' ><label style='color:red; text-align: center;'><%= message %></label></p>
+         <div style="background-color:#92bde7" class="wrapper contact animated bounceInLeft">
+            <p>
+               <label>Candidate Party*:</label>
+            </p>
+            <div class="wrapperHalf">
+               <input type="text"name="party"required>
+            </div>
+         </div>
+
+         <p class='full' ><label style='color:darkred; text-align: center;'><%= message %></label></p>
          <p>
             <div>
                <button class="container" type="submit">Submit</button>
@@ -55,7 +64,7 @@
       
 
       <font color="brown">
-      <h4>Available Positions</h4>
+      <h4>Filled Positions</h4>
       </font>
    
       <table class="animated bounceInUp">
@@ -63,6 +72,7 @@
             <th>Candidate ID</th>
             <th>Candidate Name</th>
             <th>Candidate Position</th>
+            <th>Candidate Party</th>
          </tr>
          
          <% data.candidates.forEach(function(dataitem){ %>
@@ -70,6 +80,7 @@
                <th><%= dataitem[0] %></th>
                <th><%= dataitem[1] %></th>
                <th><%= dataitem[2] %></th>
+               <th><%= dataitem[3] %></th>
             </tr>
          <% }); %>
                

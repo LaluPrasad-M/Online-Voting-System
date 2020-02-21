@@ -1,0 +1,81 @@
+
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Online Voting</title>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+      <link rel="stylesheet" href="../public/css/style.css">
+   </head>
+
+   <body class="full">
+   <center>
+      <font color="black">
+      <h1>Add New Candidate</h1>
+      <form class="container"id="login"method="POST"action="/admin/addCandidate<%= Token %>">
+         <div class="wrapper animated bounceInLeft">
+            <p>
+               <label>Candidate Name*:</label>
+            </p>
+   
+            <div class=" wrapperHalf">
+               <input type="text" name="name" required>
+            </div>
+         </div>
+      
+         <div class="wrapper contact animated bounceInRight">
+            <p>
+               <label>Candidate Position*:</label>
+            </p>
+            <div class="wrapperHalf">
+               <input style="background-color:#92bde7" type="text"name="position"required>
+            </div>
+         </div>
+         
+              <p class='full' ><label style='color:red; text-align: center;'><%= message %></label></p>
+         <p>
+            <div>
+               <button class="container" type="submit">Submit</button>
+            </div>
+         </p>
+         <p>
+            <div>
+                <a class="container" href="/admin/deleteCandidate<%= Token %>">Delete Existing Candidate</a>
+            </div>
+        </p>
+         <p>
+            <div>
+               <a class="container" href="../">Sign out</a>
+            </div>
+         </p>
+      </form>
+      </font>
+      
+
+      <font color="brown">
+      <h4>Available Positions</h4>
+      </font>
+   
+      <table class="animated bounceInUp">
+         <tr>
+            <th>Candidate ID</th>
+            <th>Candidate Name</th>
+            <th>Candidate Position</th>
+         </tr>
+         
+         <% data.candidates.forEach(function(dataitem){ %>
+            <tr>
+               <th><%= dataitem[0] %></th>
+               <th><%= dataitem[1] %></th>
+               <th><%= dataitem[2] %></th>
+            </tr>
+         <% }); %>
+               
+      </table>
+   </center>
+   </body>
+
+</html>
+

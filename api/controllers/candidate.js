@@ -22,7 +22,8 @@ exports.candidate_add = (req,res) => {
                         const candidate = new Candidate({
                             _id: new mongoose.Types.ObjectId(),
                             name: req.body.name,
-                            position: req.body.position
+                            position: req.body.position,
+                            cid: new Date().getTime(),
                         });
                         
                         candidate.save()

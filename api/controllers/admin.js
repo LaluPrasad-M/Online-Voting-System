@@ -5,7 +5,6 @@ const Admin = require('../models/admin');
 const Candidate = require('../models/candidate'); 
 
 
-
 exports.admin_get_details = (req, res, next) => {
     /*const userData= jwt.decode(req.query.Token);
     console.log(userData.email);
@@ -24,7 +23,7 @@ exports.admin_get_details = (req, res, next) => {
                     city:user[0].city,
                     state:user[0].state,
                     pincode:user[0].pincode,
-                    photo:'https://kusuma-ovs..herokuapp.com/public/Profiles/'+user[0].photo
+                    photo:'https://kusuma-ovs.herokuapp.com/public/Profiles/'+user[0].photo
                 });
             }
     })
@@ -33,8 +32,11 @@ exports.admin_get_details = (req, res, next) => {
     });
 }
 
+exports.admin_get_signup = (req,res) => {
+    res.render('adminsignup',{message:""});
+}
 
-exports.admin_signup = (req, res, next) => {
+exports.admin_post_signup = (req, res, next) => {
     Admin.find({email: req.body.email})
     .exec()
     .then(user =>{
@@ -81,7 +83,11 @@ exports.admin_signup = (req, res, next) => {
     })
 }
 
-exports.admin_login =  (req, res, next) => {
+exports.admin_get_login = (req,res) => {
+    res.render('adminlogin',{email: "",message: ""});
+}
+
+exports.admin_post_login =  (req, res, next) => {
     Admin.find({email: req.body.email})
     .exec()
     .then(user => {

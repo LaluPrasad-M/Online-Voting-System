@@ -1,8 +1,27 @@
 const mongoose = require('mongoose');
 const Candidate = require('../models/candidate'); 
 
+exports.candidate_get_add = (req,res) => {
 
-exports.candidate_add = (req,res) => {
+    Candidate.find()
+    .select("cid name position party")
+    .exec()
+    .then(docs => {
+        const response = {
+            candidates: docs.map(doc => {
+                return [doc.cid,doc.name,doc.position,doc.party]
+            })
+        };
+        res.render("candidateAdd",{Token:"?Token="+req.query.Token,message:"",data:response});
+    }) 
+    .catch(err =>{
+        res.render('candidateAdd',{Token:"?Token="+req.query.Token,message: err,data:response});
+        console.log(err);
+        res.status(500);
+    });
+}
+
+exports.candidate_post_add = (req,res) => {
     Candidate.find()
     .select("cid name position party")
     .exec()
@@ -48,8 +67,26 @@ exports.candidate_add = (req,res) => {
     });
 }
 
+exports.candidate_get_delete1 = (req,res) => {
 
-exports.candidate_delete1 = (req, res) => {
+    Candidate.find()
+    .select("cid name position party")
+    .exec()
+    .then(docs => {
+        const response = {
+            candidates: docs.map(doc => {
+                return [doc.cid,doc.name,doc.position,doc.party]
+            })
+        };
+        res.render("candidateDelete1",{Token:"?Token="+req.query.Token,message:"",data:response});
+    }) 
+    .catch(err =>{
+        res.render('candidateDelete1',{Token:"?Token="+req.query.Token,message: err,data:response});
+        res.status(500);
+    });
+}
+
+exports.candidate_post_delete1 = (req, res) => {
     Candidate.find()
     .select("cid name position party")
     .exec()
@@ -77,8 +114,26 @@ exports.candidate_delete1 = (req, res) => {
 
 }
 
+exports.candidate_get_delete2 = (req,res) => {
+    Candidate.find({name:req.body.name})
+    .select("cid name position party")
+    .exec()
+    .then(docs => {
+        const response = {
+            candidates: docs.map(doc => {
+                return [doc.cid,doc.name,doc.position,doc.party]
+            })
+        };
+        console.log("\n\n\n"+response);
+        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
+    }) 
+    .catch(err =>{
+        res.render('candidateDelete2',{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
+        res.status(500);
+    });
+}
 
-exports.candidate_delete2 = (req, res) => {
+exports.candidate_post_delete2 = (req, res) => {
     Candidate.remove({position:req.body.position,party:req.body.party})
     .exec()
     .then(result => {

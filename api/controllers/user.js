@@ -24,7 +24,7 @@ exports.user_get_details = (req, res, next) => {
                     city:user[0].city,
                     state:user[0].state,
                     pincode:user[0].pincode,
-                    photo:'https://kusuma-ovs..herokuapp.com/public/Profiles/'+user[0].photo
+                    photo:'https://kusuma-ovs.herokuapp.com/public/Profiles/'+user[0].photo
                 });
             }
     })
@@ -33,8 +33,11 @@ exports.user_get_details = (req, res, next) => {
     });
 }
 
+exports.user_get_signup = (req,res) => {
+    res.render('signup',{message:""});
+}
 
-exports.user_signup = (req, res, next) => {
+exports.user_post_signup = (req, res, next) => {
     User.find({email: req.body.email})
     .exec()
     .then(user =>{
@@ -89,7 +92,11 @@ exports.user_signup = (req, res, next) => {
     })
 }
 
-exports.user_login =  (req, res, next) => {
+exports.user_get_login = (req,res) => {
+    res.render('login',{email: "",message: ""});
+}
+
+exports.user_post_login = (req, res, next) => {
     User.find({email: req.body.email})
     .exec()
     .then(user => {

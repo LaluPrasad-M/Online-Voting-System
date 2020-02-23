@@ -29,18 +29,13 @@ const upload = multer({storage: storage,limits: {
 
 router.get('/details/:email', UserController.user_get_details);
 
+router.get('/signup',UserController.user_get_signup);
 
-router.get('/signup',(req,res) => {
-    res.render('signup',{message:""});
-});
+router.post('/signup',upload.single('photo'), UserController.user_post_signup);
 
-router.post('/signup',upload.single('photo'), UserController.user_signup);
+router.get('/login',UserController.user_get_login);
 
-router.get('/login',(req,res) => {
-    res.render('login',{email: "",message: ""});
-});
-
-router.post('/login',UserController.user_login);
+router.post('/login',UserController.user_post_login);
 
 router.delete('/:userId', checkAuth, UserController.user_delete);
 

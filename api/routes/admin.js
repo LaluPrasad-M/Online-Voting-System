@@ -32,90 +32,29 @@ const upload = multer({storage: storage,limits: {
 
 router.get('/details/:email', AdminController.admin_get_details);
 
+router.get('/signup',AdminController.admin_get_signup);
 
-router.get('/signup',(req,res) => {
-    res.render('adminsignup',{message:""});
-});
+router.post('/signup',upload.single('photo'), AdminController.admin_post_signup);
 
-router.post('/signup',upload.single('photo'), AdminController.admin_signup);
+router.get('/login',AdminController.admin_get_login);
 
-router.get('/login',(req,res) => {
-    res.render('adminlogin',{email: "",message: ""});
-});
-
-router.post('/login',AdminController.admin_login);
+router.post('/login',AdminController.admin_post_login);
 
 router.delete('/:userId', checkAuth, AdminController.admin_delete);
 
 
 
-router.get('/addCandidate',checkAuth, (req,res) => {
+router.get('/addCandidate',checkAuth, CandidateController.candidate_get_add);
 
-    Candidate.find()
-    .select("cid name position party")
-    .exec()
-    .then(docs => {
-        const response = {
-            candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position,doc.party]
-            })
-        };
-        res.render("candidateAdd",{Token:"?Token="+req.query.Token,message:"",data:response});
-    }) 
-    .catch(err =>{
-        res.render('candidateAdd',{Token:"?Token="+req.query.Token,message: err,data:response});
-        console.log(err);
-        res.status(500);
-    });
-});
+router.post('/addCandidate', checkAuth, CandidateController.candidate_post_add);
 
-router.post('/addCandidate', checkAuth, CandidateController.candidate_add);
+router.get('/deleteCandidate',checkAuth, CandidateController.candidate_get_delete1);
 
+router.post('/deleteCandidate', checkAuth, CandidateController.candidate_post_delete1);
 
+router.get('/deleteCandidate1',checkAuth, ACandidateController.candidate_get_delete2);
 
-router.get('/deleteCandidate',checkAuth, (req,res) => {
-
-    Candidate.find()
-    .select("cid name position party")
-    .exec()
-    .then(docs => {
-        const response = {
-            candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position,doc.party]
-            })
-        };
-        res.render("candidateDelete1",{Token:"?Token="+req.query.Token,message:"",data:response});
-    }) 
-    .catch(err =>{
-        res.render('candidateDelete1',{Token:"?Token="+req.query.Token,message: err,data:response});
-        res.status(500);
-    });
-});
-
-
-router.post('/deleteCandidate', checkAuth, CandidateController.candidate_delete1);
-
-
-router.get('/deleteCandidate1',checkAuth, (req,res) => {
-    Candidate.find({name:req.body.name})
-    .select("cid name position party")
-    .exec()
-    .then(docs => {
-        const response = {
-            candidates: docs.map(doc => {
-                return [doc.cid,doc.name,doc.position,doc.party]
-            })
-        };
-        console.log("\n\n\n"+response);
-        res.render("candidateDelete2",{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
-    }) 
-    .catch(err =>{
-        res.render('candidateDelete2',{Token:"?Token="+req.query.Token,data:response,entry:[req.body.party,response.candidates]});
-        res.status(500);
-    });
-});
-
-router.post('/deleteCandidate1', checkAuth, CandidateController.candidate_delete2);
+router.post('/deleteCandidate1', checkAuth, CandidateController.candidate_post_delete2);
 
 
 module.exports = router;

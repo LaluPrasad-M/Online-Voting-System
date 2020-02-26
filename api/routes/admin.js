@@ -52,7 +52,7 @@ router.get('/deleteCandidate',checkAuth, CandidateController.candidate_get_delet
 
 router.post('/deleteCandidate', checkAuth, CandidateController.candidate_post_delete1);
 
-router.get('/deleteCandidate1',checkAuth, ACandidateController.candidate_get_delete2);
+router.get('/deleteCandidate1',checkAuth, CandidateController.candidate_get_delete2);
 
 router.post('/deleteCandidate1', checkAuth, CandidateController.candidate_post_delete2);
 

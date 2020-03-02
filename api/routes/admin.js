@@ -15,6 +15,7 @@ const storage = multer.diskStorage({
         cb(null,(new Date()).getTime() + file.originalname);
     }
 });
+//File validation
 const fileFilter = (req, file, cb) =>{
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
         cb(null, true); //Save the file
